@@ -1,233 +1,330 @@
-import { motion } from 'framer-motion';
-import { MapPin, Clock, Phone, Instagram, Facebook, MessageCircle, Navigation } from 'lucide-react';
+import { MapPin, Clock, Phone, Navigation, Instagram, Facebook, Mail, ShieldCheck, Sparkles, Award } from 'lucide-react';
 
-const INSTAGRAM_POSTS = [
-  'https://images.pexels.com/photos/35521738/pexels-photo-35521738.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-  'https://images.pexels.com/photos/38526708/pexels-photo-38526708.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-  'https://images.pexels.com/photos/7176438/pexels-photo-7176438.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-  'https://images.pexels.com/photos/13584944/pexels-photo-13584944.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-  'https://images.pexels.com/photos/20593515/pexels-photo-20593515.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-  'https://images.pexels.com/photos/32309984/pexels-photo-32309984.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-];
+// --- EXACT 3D CROWN LOGO FOR FOOTER ---
+function FooterLogo({ className = "h-11 w-auto" }: { className?: string }) {
+  return (
+    <div className={`relative inline-flex items-center select-none ${className}`}>
+      <svg
+        viewBox="0 0 540 160"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-full w-auto overflow-visible"
+      >
+        <defs>
+          <linearGradient id="footerCrownGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFF275" />
+            <stop offset="45%" stopColor="#FFB300" />
+            <stop offset="100%" stopColor="#E65100" />
+          </linearGradient>
 
+          <linearGradient id="footerTrendsChrome" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="35%" stopColor="#F8FAFC" />
+            <stop offset="55%" stopColor="#94A3B8" />
+            <stop offset="100%" stopColor="#CBD5E1" />
+          </linearGradient>
+
+          <linearGradient id="footerHubFire" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFF500" />
+            <stop offset="45%" stopColor="#FF9900" />
+            <stop offset="100%" stopColor="#FF2E00" />
+          </linearGradient>
+
+          <linearGradient id="footerSwooshGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="35%" stopColor="#FF9900" />
+            <stop offset="85%" stopColor="#FF3E00" />
+            <stop offset="100%" stopColor="#FF3E00" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* 3D CROWN */}
+        <g transform="translate(230, 4) scale(0.95)">
+          <path
+            d="M 12 55 L 0 20 L 25 35 L 45 5 L 65 35 L 90 20 L 78 55 Z"
+            fill="url(#footerCrownGrad)"
+            stroke="#FFE082"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <path d="M 10 55 Q 45 61 80 55 L 77 62 Q 45 68 13 62 Z" fill="#E65100" />
+          <circle cx="45" cy="5.5" r="3" fill="#FFF" />
+          <circle cx="0" cy="20" r="2.5" fill="#FFE57F" />
+          <circle cx="90" cy="20" r="2.5" fill="#FFE57F" />
+        </g>
+
+        {/* 3D DROP SHADOWS */}
+        <text
+          x="12"
+          y="118"
+          fill="#000000"
+          fontFamily="'Impact', 'Arial Black', sans-serif"
+          fontWeight="900"
+          fontSize="84"
+          letterSpacing="1"
+          fontStyle="italic"
+        >
+          TRENDS
+        </text>
+
+        <text
+          x="332"
+          y="118"
+          fill="#3b0800"
+          fontFamily="'Impact', 'Arial Black', sans-serif"
+          fontWeight="900"
+          fontSize="88"
+          letterSpacing="2"
+          fontStyle="italic"
+        >
+          HUB
+        </text>
+
+        {/* TRENDS (Silver Metallic) */}
+        <text
+          x="8"
+          y="114"
+          fill="url(#footerTrendsChrome)"
+          stroke="#1e293b"
+          strokeWidth="2.5"
+          fontFamily="'Impact', 'Arial Black', sans-serif"
+          fontWeight="900"
+          fontSize="84"
+          letterSpacing="1"
+          fontStyle="italic"
+        >
+          TRENDS
+        </text>
+
+        {/* HUB (Fire Gradient) */}
+        <text
+          x="328"
+          y="114"
+          fill="url(#footerHubFire)"
+          stroke="#9a2c02"
+          strokeWidth="2.5"
+          fontFamily="'Impact', 'Arial Black', sans-serif"
+          fontWeight="900"
+          fontSize="88"
+          letterSpacing="2"
+          fontStyle="italic"
+        >
+          HUB
+        </text>
+
+        {/* Crisp Swoosh */}
+        <path
+          d="M 130 134 Q 300 120 480 96"
+          stroke="url(#footerSwooshGrad)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+      </svg>
+    </div>
+  );
+}
+
+// --- BOUTIQUE STORE INFO SECTION ---
 export function StoreInfo() {
   return (
-    <section id="store-info" className="py-20 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF9900]/5 blur-[100px] rounded-full" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <p className="text-xs text-[#FF9900] uppercase tracking-widest mb-2">Visit Us</p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-white">Find Trends Hub in Sitamarhi</h2>
-          <p className="text-gray-400 mt-2 text-sm max-w-lg mx-auto">
-            Visit our store for the latest trending fashion or order online with fast home delivery.
+    <section id="store-info" className="py-20 relative overflow-hidden bg-[#07080a] text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Header */}
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.05] border border-white/10 text-xs font-semibold uppercase tracking-widest text-[#FF9900] mb-3">
+            <Sparkles className="w-3.5 h-3.5" /> Flagship Experience Store
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            Visit Trends Hub Sitamarhi
+          </h2>
+          <p className="text-neutral-400 mt-2 text-sm sm:text-base max-w-xl mx-auto">
+            Experience our premium ethnic wear, festive kurtis, and contemporary designer collections in person.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Map card */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-[#15181d]/60 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden"
-          >
-            <div className="aspect-video bg-[#0d0f12] relative">
-              <iframe
-                src="https://www.google.com/maps?q=Sahu+Chowk+Dumra+Road+Sitamarhi+Bihar&output=embed"
-                className="w-full h-full grayscale opacity-70"
-                loading="lazy"
-                title="Trends Hub Location"
-              />
-            </div>
-            <div className="p-5 space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#FF9900]/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-4 h-4 text-[#FF9900]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">Store Address</p>
-                  <p className="text-sm text-gray-400 mt-0.5">Sahu Chowk, Dumra Road, Sitamarhi, Bihar 843301</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#FF9900]/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-4 h-4 text-[#FF9900]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">Shop Timings</p>
-                  <p className="text-sm text-gray-400 mt-0.5">Mon - Sun: 10:00 AM - 8:00 PM</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#FF9900]/10 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-4 h-4 text-[#FF9900]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">Contact</p>
-                  <p className="text-sm text-gray-400 mt-0.5">+91 99999 99999</p>
-                </div>
-              </div>
-              <a
-                href="https://www.google.com/maps/dir/?api=1&destination=Sahu+Chowk+Dumra+Road+Sitamarhi+Bihar"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 w-full py-3 rounded-xl bg-gradient-to-r from-[#FF9900] to-[#FF3E00] text-white text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#FF9900]/30 transition-all"
-              >
-                <Navigation className="w-4 h-4" />
-                Get Directions
-              </a>
-            </div>
-          </motion.div>
+        {/* 2-Column Store Details & Compact Map */}
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Left: Boutique Narrative & Timings */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 shadow-xl">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Award className="w-5 h-5 text-[#FF9900]" />
+                Sitamarhi&apos;s Signature Fashion Destination
+              </h3>
+              <p className="text-neutral-300 text-sm leading-relaxed">
+                Trends Hub brings refined royal fabrics, intricate hand-embroidery, and trendsetting festive silhouettes. Visit our boutique store to explore the freshest arrivals and customized tailored fittings.
+              </p>
 
-          {/* Instagram grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            id="instagram"
-            className="bg-[#15181d]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-5"
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <Instagram className="w-5 h-5 text-[#FF9900]" />
-              <h3 className="text-lg font-bold text-white">@trendshub.sitamarhi</h3>
+              <div className="flex flex-wrap gap-2.5 text-xs text-neutral-300 pt-1">
+                <span className="px-3 py-1 rounded-md bg-white/[0.04] border border-white/10 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 100% Authentic Fabrics
+                </span>
+                <span className="px-3 py-1 rounded-md bg-white/[0.04] border border-white/10 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FF9900]" /> Tailored Perfect Fit
+                </span>
+              </div>
             </div>
-            <p className="text-sm text-gray-400 mb-4">Follow us for the latest fashion drops, reels, and exclusive offers</p>
-            <div className="grid grid-cols-3 gap-2">
-              {INSTAGRAM_POSTS.map((img, i) => (
+
+            {/* Store Contact Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+              <div className="p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800">
+                <MapPin className="w-4 h-4 text-[#FF9900] mb-1.5" />
+                <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold">Address</p>
+                <p className="text-xs text-neutral-200 mt-0.5 font-medium">Sahu Chowk, Dumra Rd, Sitamarhi</p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800">
+                <Clock className="w-4 h-4 text-[#FF9900] mb-1.5" />
+                <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold">Timings</p>
+                <p className="text-xs text-neutral-200 mt-0.5 font-medium">10:00 AM - 8:30 PM (Daily)</p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800">
+                <Phone className="w-4 h-4 text-[#FF9900] mb-1.5" />
+                <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold">Contact</p>
+                <p className="text-xs text-neutral-200 mt-0.5 font-medium">+91 99999 99999</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Small Google Map */}
+          <div className="lg:col-span-5">
+            <div className="p-3 rounded-2xl bg-neutral-900/80 border border-neutral-800 shadow-2xl">
+              <div className="w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-neutral-950">
+                <iframe
+                  src="https://maps.google.com/maps?q=Sahu+Chowk+Dumra+Road+Sitamarhi+Bihar&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  title="Store Location"
+                />
+              </div>
+
+              <div className="pt-3">
                 <a
-                  key={i}
-                  href="https://instagram.com"
+                  href="https://www.google.com/maps/dir/?api=1&destination=Sahu+Chowk+Dumra+Road+Sitamarhi+Bihar"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="aspect-square rounded-lg overflow-hidden group relative"
+                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#FF9900] to-[#FF3E00] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 transition-all cursor-pointer shadow-md"
                 >
-                  <img src={img} alt={`Instagram post ${i + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <Instagram className="w-5 h-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
+                  <Navigation className="w-4 h-4" />
+                  Get Directions
                 </a>
-              ))}
+              </div>
             </div>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-[#E1306C] to-[#F77737] text-white text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-lg transition-all"
-            >
-              <Instagram className="w-4 h-4" />
-              Follow on Instagram
-            </a>
-          </motion.div>
+          </div>
+
         </div>
       </div>
     </section>
   );
 }
 
+// --- DUMMY WHATSAPP BUBBLE (Prevents App.tsx from crashing) ---
 export function WhatsAppBubble() {
-  return (
-    <motion.a
-      href="https://wa.me/919999999999?text=Hi%20Trends%20Hub!%20I'd%20like%20to%20know%20more%20about%20your%20collection."
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ delay: 1, type: 'spring' }}
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] shadow-lg shadow-[#25D366]/30 flex items-center justify-center hover:scale-110 transition-transform group"
-    >
-      <MessageCircle className="w-7 h-7 text-white" />
-      <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-[#15181d] text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Chat with us
-      </span>
-      <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
-    </motion.a>
-  );
+  return null;
 }
 
+// --- FOOTER WITH 3D LOGO & SOCIAL MEDIA (INSTA, FB, EMAIL) ---
 export function Footer() {
   return (
-    <footer className="bg-[#0a0b0e] border-t border-white/5 pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#050608] border-t border-neutral-800/80 pt-16 pb-8 text-neutral-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 lg:col-span-1">
-            <h3 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] via-[#FF9900] to-[#FF3E00] bg-clip-text text-transparent mb-3">
-              TRENDS HUB
-            </h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Sitamarhi&apos;s trending fashion store. Specialists in women&apos;s premium kurtis, ethnic sets, and latest collections.
+          
+          {/* Brand Col with 3D Crown Logo */}
+          <div className="col-span-2 lg:col-span-1 space-y-3">
+            <FooterLogo className="h-12 w-auto" />
+            <p className="text-xs text-neutral-400 leading-relaxed pt-1">
+              Sitamarhi&apos;s trending fashion store. Artisanal kurtis, ethnic celebration sets, and contemporary couture.
             </p>
-            <div className="flex gap-3 mt-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#FF9900] hover:border-[#FF9900]/30 transition-colors">
+
+            {/* Social Media Links: Instagram, Facebook, Email */}
+            <div className="flex items-center gap-2.5 pt-2">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-neutral-400 hover:text-[#FF9900] hover:border-[#FF9900]/50 transition-all cursor-pointer"
+                aria-label="Instagram"
+              >
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#FF9900] hover:border-[#FF9900]/30 transition-colors">
+
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-neutral-400 hover:text-[#1877F2] hover:border-[#1877F2]/50 transition-all cursor-pointer"
+                aria-label="Facebook"
+              >
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#25D366] hover:border-[#25D366]/30 transition-colors">
-                <MessageCircle className="w-4 h-4" />
+
+              <a
+                href="mailto:support@trendshub.com"
+                className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-neutral-400 hover:text-[#FF3E00] hover:border-[#FF3E00]/50 transition-all cursor-pointer"
+                aria-label="Email"
+              >
+                <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Shop links */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Shop</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Shop Collections</h4>
+            <ul className="space-y-2 text-xs text-neutral-400">
+              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Women&apos;s Festive Sets</a></li>
               <li><a href="#" className="hover:text-[#FF9900] transition-colors">Daily Wear Kurtis</a></li>
-              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Festive Kurti Sets</a></li>
+              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Men&apos;s Ethnic Wear</a></li>
               <li><a href="#" className="hover:text-[#FF9900] transition-colors">Dupatta Sets</a></li>
-              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Trending Now</a></li>
             </ul>
           </div>
 
           {/* Policies */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Policies</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Shipping Policy</a></li>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Customer Policies</h4>
+            <ul className="space-y-2 text-xs text-neutral-400">
+              <li><a href="#" className="hover:text-[#FF9900] transition-colors">Shipping &amp; Delivery</a></li>
               <li><a href="#" className="hover:text-[#FF9900] transition-colors">Return &amp; Exchange</a></li>
               <li><a href="#" className="hover:text-[#FF9900] transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-[#FF9900] transition-colors">Terms of Service</a></li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact Details */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Contact</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Boutique Visit</h4>
+            <ul className="space-y-2 text-xs text-neutral-400">
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-[#FF9900] flex-shrink-0 mt-0.5" />
+                <MapPin className="w-3.5 h-3.5 text-[#FF9900] flex-shrink-0 mt-0.5" />
                 <span>Sahu Chowk, Dumra Road, Sitamarhi, Bihar 843301</span>
               </li>
               <li className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#FF9900] flex-shrink-0" />
-                <span>10 AM - 8 PM (Daily)</span>
+                <Clock className="w-3.5 h-3.5 text-[#FF9900] flex-shrink-0" />
+                <span>10:00 AM - 8:30 PM (Daily)</span>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-[#FF9900] flex-shrink-0" />
+                <Phone className="w-3.5 h-3.5 text-[#FF9900] flex-shrink-0" />
                 <span>+91 99999 99999</span>
               </li>
             </ul>
           </div>
+
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600">
-            © 2026 Trends Hub - Sitamarhi. All rights reserved.
-          </p>
-          <div className="flex items-center gap-4 text-xs text-gray-600">
-            <span>COD Available</span>
-            <span>•</span>
-            <span>Premium Quality</span>
-            <span>•</span>
-            <span>Fast Delivery</span>
+        {/* Bottom Bar */}
+        <div className="pt-6 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-neutral-500">
+          <p>&copy; 2026 Trends Hub - Sitamarhi. All rights reserved.</p>
+          <div className="flex items-center gap-3 font-medium text-neutral-400">
+            <span>Cash on Delivery</span>
+            <span>&bull;</span>
+            <span>Pure Handpicked Fabrics</span>
+            <span>&bull;</span>
+            <span>Fast Home Delivery</span>
           </div>
         </div>
       </div>

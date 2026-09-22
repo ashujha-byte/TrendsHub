@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Eye, Star, ShoppingBag, MessageCircle } from 'lucide-react';
+import { Heart, Eye, Star, ShoppingCart, Zap } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import type { Product } from '@/types';
 
 export function ProductCard({ product, onQuickView }: { product: Product; onQuickView: (p: Product) => void }) {
-  const { addToCart, toggleWishlist, isWishlisted } = useApp();
+  const { addToCart, toggleWishlist, isWishlisted, setCartOpen } = useApp();
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [imageIdx, setImageIdx] = useState(0);
@@ -15,7 +15,7 @@ export function ProductCard({ product, onQuickView }: { product: Product; onQuic
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: y * -10, y: x * 10 });
+    setTilt({ x: y * -7, y: x * 7 });
   };
 
   const handleMouseLeave = () => {
@@ -28,10 +28,23 @@ export function ProductCard({ product, onQuickView }: { product: Product; onQuic
     ? Math.round(((product.original_price - product.price) / product.original_price) * 100)
     : 0;
 
-  const whatsappMsg = `Hi Trends Hub! I'm interested in the ${product.name} (₹${product.price}). Is it available?`;
+  // Flipkart Style Add To Cart Handler
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, product.sizes?.[0] || 'M');
+  };
+
+  // Flipkart Style Direct Buy Now Handler
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, product.sizes?.[0] || 'M');
+    setCartOpen(true);
+  };
 
   return (
-    <div style={{ perspective: '1000px' }}>
+    <div style={{ perspective: '1200px' }} className="h-full">
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -41,102 +54,107 @@ export function ProductCard({ product, onQuickView }: { product: Product; onQuic
           rotateY: tilt.y,
           transformStyle: 'preserve-3d',
         }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="group relative bg-[#15181d]/60 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden hover:border-[#FF9900]/30 transition-colors"
+        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+        className="group relative bg-[#11141a] border border-neutral-800 hover:border-neutral-700 rounded-2xl overflow-hidden hover:shadow-[0_16px_35px_rgba(0,0,0,0.8)] transition-all duration-300 flex flex-col h-full"
       >
-        {/* Image */}
-        <div className="relative aspect-[3/4] overflow-hidden" style={{ transform: 'translateZ(40px)' }}>
-          <motion.img
-            src={product.images[imageIdx]}
+        {/* Product Image */}
+        <div 
+          onClick={() => onQuickView(product)}
+          className="relative aspect-[3/4] overflow-hidden cursor-pointer bg-neutral-900" 
+          style={{ transform: 'translateZ(25px)' }}
+        >
+          <img
+            src={product.images?.[imageIdx] || (product as any).image_url}
             alt={product.name}
-            className="w-full h-full object-cover"
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.4 }}
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-1.5" style={{ transform: 'translateZ(30px)' }}>
-            {product.badge && (
-              <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-[#FF9900] to-[#FF3E00] text-white rounded-full shadow-lg">
-                {product.badge}
-              </span>
-            )}
+          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
             {discount > 0 && (
-              <span className="px-2.5 py-1 text-[10px] font-bold bg-white/90 text-[#0d0f12] rounded-full">
+              <span className="px-2 py-0.5 text-[10px] font-black bg-[#388e3c] text-white rounded shadow">
                 {discount}% OFF
               </span>
             )}
           </div>
 
-          {/* Wishlist */}
+          {/* Wishlist Heart */}
           <button
-            onClick={() => toggleWishlist(product.id)}
-            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-black/60 transition-colors"
-            style={{ transform: 'translateZ(30px)' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleWishlist(product.id);
+            }}
+            className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center transition-all z-10 cursor-pointer shadow-md hover:scale-110"
+            aria-label="Wishlist"
           >
-            <Heart className={`w-4 h-4 ${wished ? 'fill-[#FF3E00] text-[#FF3E00]' : 'text-white'}`} />
+            <Heart className={`w-4 h-4 ${wished ? 'fill-[#ff3e00] text-[#ff3e00]' : 'text-white'}`} />
           </button>
 
-          {/* Image dots */}
-          {product.images.length > 1 && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5" style={{ transform: 'translateZ(30px) translateX(-50%)' }}>
-              {product.images.map((_, i) => (
-                <button
-                  key={i}
-                  onMouseEnter={() => setImageIdx(i)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${
-                    i === imageIdx ? 'bg-[#FF9900] w-4' : 'bg-white/40'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Hover actions */}
-          <div className="absolute inset-x-0 bottom-0 p-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: 'translateZ(50px)' }}>
+          {/* Quick Preview Hover */}
+          <div className="absolute bottom-2 inset-x-2 opacity-0 group-hover:opacity-100 transition-all duration-200 hidden sm:flex justify-center z-10">
             <button
-              onClick={() => addToCart(product, product.sizes[0])}
-              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#FF9900] to-[#FF3E00] text-white text-xs font-semibold flex items-center justify-center gap-1.5 hover:shadow-lg hover:shadow-[#FF9900]/30 transition-all"
+              onClick={(e) => {
+                e.stopPropagation();
+                onQuickView(product);
+              }}
+              className="w-full py-1.5 rounded-lg bg-black/80 backdrop-blur-md border border-white/20 text-[11px] font-bold text-white flex items-center justify-center gap-1 hover:bg-neutral-800"
             >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              Add to Cart
-            </button>
-            <button
-              onClick={() => onQuickView(product)}
-              className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-            >
-              <Eye className="w-4 h-4" />
+              <Eye className="w-3.5 h-3.5" /> Quick View
             </button>
           </div>
         </div>
 
-        {/* Info */}
-        <div className="p-4" style={{ transform: 'translateZ(20px)' }}>
-          <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">{product.category}</p>
-          <h3 className="text-sm font-semibold text-white mb-2 line-clamp-1">{product.name}</h3>
+        {/* Product Info & Amazon/Flipkart Buttons */}
+        <div className="p-3.5 flex flex-col flex-1 justify-between gap-3">
+          <div>
+            <span className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">
+              {product.category}
+            </span>
 
-          <div className="flex items-center gap-1 mb-2">
-            <Star className="w-3 h-3 fill-[#FF9900] text-[#FF9900]" />
-            <span className="text-xs text-gray-400">{product.rating} ({product.review_count})</span>
+            <h3 
+              onClick={() => onQuickView(product)}
+              className="text-sm font-semibold text-white mt-0.5 line-clamp-1 cursor-pointer hover:text-[#FF9900] transition-colors"
+            >
+              {product.name}
+            </h3>
+
+            {/* Rating Tag (Flipkart Style Green Badge) */}
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-[#388e3c] text-white text-[10px] font-bold leading-none">
+                {product.rating || '4.8'} <Star className="w-2.5 h-2.5 fill-current" />
+              </span>
+              <span className="text-xs text-neutral-400">({product.review_count || 120})</span>
+            </div>
+
+            {/* Pricing Section */}
+            <div className="flex items-baseline gap-2 mt-2">
+              <span className="text-lg font-black text-white">₹{product.price.toLocaleString()}</span>
+              {product.original_price && (
+                <span className="text-xs text-neutral-500 line-through">₹{product.original_price.toLocaleString()}</span>
+              )}
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-white">₹{product.price}</span>
-            {product.original_price && (
-              <span className="text-xs text-gray-500 line-through">₹{product.original_price}</span>
-            )}
-          </div>
+          {/* FLIPKART & AMAZON STYLE 2 ACTION BUTTONS */}
+          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-neutral-800 mt-auto">
+            {/* 1. Add To Cart (Flipkart Golden/Yellow button) */}
+            <button
+              onClick={handleAddToCart}
+              className="py-2 px-1 rounded-lg bg-[#ff9f00] hover:bg-[#f39700] active:scale-95 text-black font-bold text-xs flex items-center justify-center gap-1 shadow transition-all cursor-pointer"
+            >
+              <ShoppingCart className="w-3.5 h-3.5 fill-current" />
+              <span>Add to Cart</span>
+            </button>
 
-          <a
-            href={`https://wa.me/919999999999?text=${encodeURIComponent(whatsappMsg)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 w-full py-2 rounded-lg bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-[#25D366]/20 transition-colors"
-          >
-            <MessageCircle className="w-3.5 h-3.5" />
-            Buy via WhatsApp
-          </a>
+            {/* 2. Buy Now (Amazon/Flipkart Orange/Red button) */}
+            <button
+              onClick={handleBuyNow}
+              className="py-2 px-1 rounded-lg bg-[#fb641b] hover:bg-[#e85b17] active:scale-95 text-white font-bold text-xs flex items-center justify-center gap-1 shadow transition-all cursor-pointer"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span>Buy Now</span>
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>
