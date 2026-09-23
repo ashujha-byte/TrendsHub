@@ -143,7 +143,7 @@ export function TrendsHubLogo({ className = "h-12 w-auto" }: { className?: strin
   );
 }
 
-// --- 2. STYLISH NAVBAR WITH PROMINENT E-COMMERCE SEARCH ---
+// --- 2. CLEAN NAVBAR (RESPONSIVE FOR MOBILE & DESKTOP) ---
 export function Navbar() {
   const { cartCount, wishlist, setCurrentPage, currentPage, setCartOpen, setAuthOpen, session, setSearchOpen } = useApp();
   const [scrolled, setScrolled] = useState(false);
@@ -183,20 +183,20 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 lg:gap-8 h-20">
+        <div className="flex items-center justify-between gap-4 lg:gap-8 h-16 sm:h-20">
           
           {/* Logo */}
           <motion.button
             onClick={() => handleNavClick('home')}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex-shrink-0 cursor-pointer focus:outline-none"
+            className="flex-shrink-0 cursor-pointer focus:outline-none py-1"
             aria-label="Trends Hub"
           >
-            <TrendsHubLogo className="h-11 sm:h-13 lg:h-15 w-auto" />
+            <TrendsHubLogo className="h-9 sm:h-12 lg:h-14 w-auto" />
           </motion.button>
 
-          {/* Flipkart / Amazon Style Large Center Search Bar (Desktop) */}
+          {/* Large Center Search Bar (Kewal Desktop/Tablet par dikhega) */}
           <form
             onSubmit={handleSearchSubmit}
             className="hidden md:flex flex-1 max-w-2xl relative items-center"
@@ -245,11 +245,11 @@ export function Navbar() {
           </div>
 
           {/* Action Icons */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Mobile Search Button (Triggers Search Modal) */}
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            {/* Mobile Search Icon Button (Ye search modal trigger karega) */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="md:hidden p-2.5 text-gray-300 hover:text-[#FF9900] transition-colors"
+              className="md:hidden p-2 rounded-lg text-gray-300 hover:text-[#FF9900] hover:bg-white/[0.04] transition-colors"
               aria-label="Open Search"
             >
               <Search className="w-5 h-5" />
@@ -261,7 +261,7 @@ export function Navbar() {
                 if (!session) { setAuthOpen(true); return; }
                 handleNavClick('profile');
               }}
-              className="p-2.5 rounded-xl text-gray-300 hover:text-[#FF9900] hover:bg-white/[0.04] transition-all"
+              className="p-2 sm:p-2.5 rounded-xl text-gray-300 hover:text-[#FF9900] hover:bg-white/[0.04] transition-all"
               aria-label="Profile"
             >
               <User className="w-5 h-5" />
@@ -273,12 +273,12 @@ export function Navbar() {
                 if (!session) { setAuthOpen(true); return; }
                 handleNavClick('profile');
               }}
-              className="relative p-2.5 rounded-xl text-gray-300 hover:text-[#FF9900] hover:bg-white/[0.04] transition-all"
+              className="relative p-2 sm:p-2.5 rounded-xl text-gray-300 hover:text-[#FF9900] hover:bg-white/[0.04] transition-all"
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
               {wishlist.length > 0 && (
-                <span className="absolute 1.5 top-1.5 right-1.5 w-4 h-4 bg-[#FF3E00] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 w-4 h-4 bg-[#FF3E00] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                   {wishlist.length}
                 </span>
               )}
@@ -287,7 +287,7 @@ export function Navbar() {
             {/* Cart Button */}
             <button
               onClick={() => setCartOpen(true)}
-              className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-[#FF9900]/15 to-[#FF3E00]/15 border border-[#FF9900]/30 hover:border-[#FF9900] text-gray-200 transition-all"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#FF9900]/15 to-[#FF3E00]/15 border border-[#FF9900]/30 hover:border-[#FF9900] text-gray-200 transition-all"
               aria-label="Cart"
             >
               <ShoppingBag className="w-5 h-5 text-[#FF9900]" />
@@ -307,27 +307,6 @@ export function Navbar() {
               {mobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-        </div>
-
-        {/* Mobile Full-Width Search Bar */}
-        <div className="md:hidden pb-3 pt-1">
-          <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products, brands..."
-              className="w-full bg-[#161a22] text-white text-xs placeholder:text-gray-400 pl-3 pr-10 py-2.5 rounded-lg border border-white/10 focus:outline-none focus:border-[#FF9900]"
-            />
-            <button
-              type="submit"
-              onClick={() => setSearchOpen(true)}
-              className="absolute right-1 top-1 bottom-1 px-3 bg-[#FF9900] text-white rounded-md flex items-center justify-center"
-              aria-label="Search"
-            >
-              <Search className="w-4 h-4" />
-            </button>
-          </form>
         </div>
       </div>
 
