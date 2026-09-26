@@ -3,18 +3,18 @@ import { Sparkles } from 'lucide-react';
 
 export function AnnouncementBar() {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-[#FF9900] via-[#FF6600] to-[#FF3E00] text-white text-xs sm:text-sm">
+    <div className="relative overflow-hidden bg-gradient-to-r from-[#1c120c] via-[#2d1b11] to-[#1c120c] text-[#e0a96d] text-xs sm:text-sm">
       <motion.div
         className="flex items-center justify-center gap-2 py-2 px-4 whitespace-nowrap"
-        animate={{ x: [0, -30, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ x: [0, -15, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-        <span className="font-medium tracking-wide">
-          Special Festive Sale | 
+        <Sparkles className="w-3.5 h-3.5 flex-shrink-0 text-[#d4af37]" />
+        <span className="font-semibold tracking-wider text-stone-200">
+          Special Festive Sale | Sitamarhi Boutique
         </span>
-        <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-        <span className="font-medium tracking-wide hidden sm:inline">
+        <Sparkles className="w-3.5 h-3.5 flex-shrink-0 text-[#d4af37]" />
+        <span className="font-medium tracking-wide text-[#e0a96d] hidden sm:inline">
           COD Available | Premium Quality at Best Price
         </span>
       </motion.div>
